@@ -10,6 +10,10 @@ window.addEventListener('load', ()=>{
     const tileSize = 15
     canvas.height = rows*tileSize
     canvas.width = columns*tileSize
+
+    //bgImage
+    const bgImage = new Image ()
+    bgImage.src = 'images/background.jpg'
     
     //snake
     let snakeX = tileSize * 5
@@ -27,15 +31,17 @@ window.addEventListener('load', ()=>{
 
     function drawGame(){
         if (gameOver){
-            return
+            clearInterval(intervalId)
         }
-        ctx.fillStyle = 'black'
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        //draw bg Image
+        //ctx.fillStyle = 'black'
+        //ctx.fillRect(0, 0, canvas.width, canvas.height)
+        ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height)
 
         ctx.fillStyle = 'yellow'
         ctx.fillRect (coinX, coinY, tileSize, tileSize)
 
-        //check collision
+        //check collision with coin
         if(snakeX === coinX && snakeY === coinY){
             snakeBody.push([coinX, coinY])
             placeCoin()
@@ -60,29 +66,26 @@ window.addEventListener('load', ()=>{
         }
 
         //gameOver conditions
-        if (snakeX < 0 || snakeX > columns*tileSize || snakeY < 0 || snakeY > rows*tileSize){
+        if (snakeX < 0 || snakeX >= columns*tileSize || snakeY < 0 || snakeY >= rows*tileSize){
             gameOver = true
             console.log('gameOver')
         }
 
-        if(snakeX === snakeBody[i][0]&& snakeY === snakeBody[i][1]){
-            gameOver = true
-            console.log('gameOver')
+        for (let i=0; i<snakeBody.length; i++){
+            if(snakeX === snakeBody[i][0]&& snakeY === snakeBody[i][1]){
+                gameOver = true
+                console.log('gameOver')
+            }
         }
-
-        
     }
-
-
 
     function placeCoin (){
         coinX = (Math.floor(Math.random()*columns)*tileSize)
         coinY = (Math.floor(Math.random()*rows)*tileSize)
     }
 
-
     placeCoin()
-    setInterval(drawGame, 100)
+    const intervalId = setInterval(drawGame, 100)
 
     document.addEventListener('keydown', (event)=>{
         if(event.key === 'ArrowUp' && speedY !== 1){
