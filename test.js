@@ -34,9 +34,9 @@ window.addEventListener('load', ()=>{
             clearInterval(intervalId)
         }
         //draw bg Image
-        //ctx.fillStyle = 'black'
-        //ctx.fillRect(0, 0, canvas.width, canvas.height)
-        ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height)
+        ctx.fillStyle = 'black'
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        //ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height)
 
         ctx.fillStyle = 'yellow'
         ctx.fillRect (coinX, coinY, tileSize, tileSize)
