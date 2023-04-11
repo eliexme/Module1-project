@@ -20,6 +20,8 @@ window.addEventListener('load', ()=>{
     let headX = 20 *tileSize
     let headY = 14 *tileSize
     let snakeSpeed = 1
+    const snakeBody = []
+    let tailLength = 0
 
     //direction variable
     let isMovingUp = false
@@ -31,6 +33,10 @@ window.addEventListener('load', ()=>{
     let coinX = 5*tileSize
     let coinY = 5*tileSize
 
+    //coins variables
+    let assetX = 10*tileSize
+    let assetY = 10*tileSize
+
     //score variables
     let score = 0
     
@@ -39,10 +45,12 @@ window.addEventListener('load', ()=>{
         canvas.style.display = 'block'
         ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height)
         clearScreen()
-        drawSnake()
-        drawCoin()
-        snakeMove()
         checkCoinCollision()
+        checkAssetCollision()
+        drawCoin()
+        drawAsset()
+        drawSnake()
+        snakeMove()
         requestAnimationFrame(drawGame)
     }
 
@@ -52,9 +60,20 @@ window.addEventListener('load', ()=>{
     }
 
     function drawSnake(){
+        //head
         ctx.fillStyle = 'purple'
-        //por que *tile count en lugar de *tile size?
         ctx.fillRect (headX, headY, tileSize, tileSize)
+        //array
+        
+        //body
+        ctx.fillStyle = 'black'
+        for (let i=0; i<snakeBody.length; i++){
+            let part = snakeBody[i]
+            ctx.fillRect (part.x + headX* i+1 , part.y + headY* i+1, tileSize, tileSize)
+        }
+
+        
+        
     }
 
     function snakeMove(){
@@ -81,8 +100,37 @@ window.addEventListener('load', ()=>{
             headY < coinY + tileSize 
             ){
             score += 100
+            tailLength +=1
             coinX = (Math.floor(Math.random()*tileCountX)*tileSize)%canvas.width
             coinY = (Math.floor(Math.random()*tileCountY)*tileSize)%canvas.height
+
+            snakeBody.push(new SnakeBody(headX+tileSize, headY+tileSize))
+            console.log(snakeBody)
+        }
+    }
+
+    function drawAsset(){
+        ctx.fillStyle = 'red'
+        ctx.fillRect(assetX, assetY, tileSize, tileSize)
+    }
+
+    function checkAssetCollision(){
+        if (headX + tileSize > assetX && 
+            headX < assetX + tileSize && 
+            headY + tileSize > assetY &&
+            headY < assetY + tileSize 
+            ){
+            score += 250
+            tailLength +=1
+            assetX = (Math.floor(Math.random()*tileCountX)*tileSize)%canvas.width
+            assetY = (Math.floor(Math.random()*tileCountY)*tileSize)%canvas.height
+        }
+    }
+
+    class SnakeBody{
+        constructor(x, y){
+            this.x = x
+            this.y = y
         }
     }
     
