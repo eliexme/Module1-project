@@ -1,0 +1,144 @@
+@font-face {
+    font-family: batman-big;
+    src: url('./fonts/batmfo__.ttf');
+}
+@font-face {
+    font-family: batman;
+    src: url('./fonts/batmfa__.ttf');
+}
+
+html, body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    background-image: url('images/backgroundFinal.jpg');
+    background-size: cover;
+  }
+  
+
+  .main-intro{
+    display: flex;
+    flex-direction: row;
+
+  }
+
+  #intro{
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    /*background-color: red;*/
+    align-items: center;
+  }
+
+  .intro-logo{
+    width: 20rem;
+    padding-top: 2rem;
+  }
+
+  .directions{
+    color: white;
+  }
+
+  h2{
+    text-align: center;
+    font-family: batman-big;
+    font-size: 3rem;
+    color: white;
+    margin-top: 0;
+    padding-top: 2rem;
+  }
+
+  #intro ul{
+    text-align: center;
+    list-style: none;
+
+  }
+
+  #intro ul li{
+    font-family: batman;
+    background-color: rgba(63, 145, 65, 0.61);
+    margin: 1rem;
+    font-size: 1rem;
+    height: 3rem;
+    height: 3rem;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+  }
+
+  .button-div{
+    display: flex;
+    justify-self: flex-end;
+    align-items: center;
+    width: 50vw;
+    justify-content: center;
+  }
+
+  .main-button{
+    background-color: rgba(94, 164, 95, 0.6);
+    padding: 4rem;
+    font-size: 2rem;
+    color: white;
+    font-family: batman-big;
+    border: 3px solid white;
+  }
+
+  #start-button{
+    margin-top: 13rem;
+  }
+
+  .board-page{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 2rem;
+    margin-top: 0;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+  
+  .canvas-align {
+    margin-top: auto;
+    display: flex;
+    align-self: center;
+    background-color: 'red';
+    margin-bottom: 2rem;
+  }
+  
+
+  h3{
+    margin: 0;
+  }
+
+  .data{
+    display: flex;
+    padding: 2rem;
+  }
+
+  .data h3{
+    margin-right: 20rem;
+    color: white;
+    font-family: batman;
+  }
+
+  .game-over{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .data-end{
+    color: white;
+    font-family: batman;
+    font-size: xx-large;
+  }
+  .data-end h3{
+    padding: 3rem;
+  }
+
+
+
+  

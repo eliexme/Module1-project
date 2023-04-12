@@ -5,16 +5,17 @@ window.addEventListener('load', ()=>{
     canvas.style.display = 'block'
 
     //tile info
-    /*const rows = 28
+    const rows = 28
     const columns = 40
-    const tileSize = 15*/
+    const tileSize = 15
 
-    //buttons target
-    const startButton = document.querySelector('#start-button')
+    //bgImage
+    const bgImage = new Image ()
+    bgImage.src = 'images/background.jpg'
     
     //snake
-    let snakeX = 5
-    let snakeY = 10
+    let snakeX = tileSize * 5
+    let snakeY = tileSize * 10
     let speedX = 0
     let speedY = 0
     let snakeBody = []
@@ -83,10 +84,6 @@ window.addEventListener('load', ()=>{
 
     placeCoin()
     const intervalId = setInterval(drawGame, 100)
-
-    document.addEventListener('click', ()=>{
-
-    })
 
     document.addEventListener('keydown', (event)=>{
         if(event.key === 'ArrowUp' && speedY !== 1){

@@ -4,6 +4,10 @@ window.addEventListener('load', ()=>{
     const ctx = canvas.getContext('2d')
     canvas.style.display = 'none'
 
+    //bgImage
+    const bgImage = new Image ()
+    bgImage.src = './images/background.jpg'
+
     //buttons target
     const startButton = document.querySelector('#start-button')
 
@@ -15,8 +19,9 @@ window.addEventListener('load', ()=>{
     //snake variables
     let headX = 20 *tileSize
     let headY = 14 *tileSize
-    let snakeSpeed = 2
-    let snakeBody = [[headX, headY]]
+    let snakeSpeed = 1
+    const snakeBody = []
+    let tailLength = 0
 
     //direction variable
     let isMovingUp = false
@@ -38,33 +43,40 @@ window.addEventListener('load', ()=>{
 
     function drawGame(){
         canvas.style.display = 'block'
-        ctx.fillStyle = 'green'
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
-        ctx.fillStyle = 'black'
-        ctx.fillRect(2, 2, canvas.width -5, canvas.height-5)
+        ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height)
         clearScreen()
         checkCoinCollision()
         checkAssetCollision()
         drawCoin()
         drawAsset()
         drawSnake()
+        snakeMove()
         requestAnimationFrame(drawGame)
     }
 
     function clearScreen(){
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        ctx.fillStyle = 'green'
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
-        ctx.fillStyle = 'black'
-        ctx.fillRect(2, 2, canvas.width -5, canvas.height-5)
+        ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height)
     }
 
     function drawSnake(){
-        
         //head
-        /*ctx.fillStyle = 'purple'
-        ctx.fillRect (headX, headY, tileSize, tileSize)*/
-        //head movement
+        ctx.fillStyle = 'purple'
+        ctx.fillRect (headX, headY, tileSize, tileSize)
+        //array
+        
+        //body
+        ctx.fillStyle = 'black'
+        for (let i=0; i<snakeBody.length; i++){
+            let part = snakeBody[i]
+            ctx.fillRect (part.x + headX* i+1 , part.y + headY* i+1, tileSize, tileSize)
+        }
+
+        
+        
+    }
+
+    function snakeMove(){
         if (isMovingUp) {
             headY -= snakeSpeed
         } else if (isMovingDown) {
@@ -74,22 +86,7 @@ window.addEventListener('load', ()=>{
         } else if (isMovingRight) {
             headX += snakeSpeed
         }
-
-        //draw body
-        for (let i=snakeBody.length-1; i>0; i--){
-            snakeBody[i] = snakeBody[i-1]
-        }
-
-        if (snakeBody.length){
-            snakeBody[0] = [headX, headY]
-        }
-
-        ctx.fillStyle = 'purple'
-        for (let i=0; i<snakeBody.length; i++){
-            ctx.fillRect(snakeBody[i][0], snakeBody[i][1], tileSize, tileSize)
-        }
     }
-
 
     function drawCoin(){
         ctx.fillStyle = 'yellow'
@@ -103,18 +100,13 @@ window.addEventListener('load', ()=>{
             headY < coinY + tileSize 
             ){
             score += 100
+            tailLength +=1
             coinX = (Math.floor(Math.random()*tileCountX)*tileSize)%canvas.width
             coinY = (Math.floor(Math.random()*tileCountY)*tileSize)%canvas.height
-            if (isMovingDown){
-                snakeBody.push([headX, 100-tileSize])
-            }
 
-            /*if (snakeBody.length) {
-                snakeBody.push([headX, headY]);
-              }*/
-            console.log(snakeBody, headX, headY)
-            
-        } 
+            snakeBody.push(new SnakeBody(headX+tileSize, headY+tileSize))
+            console.log(snakeBody)
+        }
     }
 
     function drawAsset(){
@@ -129,11 +121,18 @@ window.addEventListener('load', ()=>{
             headY < assetY + tileSize 
             ){
             score += 250
+            tailLength +=1
             assetX = (Math.floor(Math.random()*tileCountX)*tileSize)%canvas.width
             assetY = (Math.floor(Math.random()*tileCountY)*tileSize)%canvas.height
         }
     }
 
+    class SnakeBody{
+        constructor(x, y){
+            this.x = x
+            this.y = y
+        }
+    }
     
     
 

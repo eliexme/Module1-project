@@ -4,11 +4,52 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.cdnfonts.com/css/batman-forever" rel="stylesheet">
+                
     <title>Gotham City</title>
 </head>
 <body>
-    <canvas width="600" height="360"></canvas>
-
-    <script src="test.js"></script>
+    <div class="main-intro">
+        <div id="intro">
+            <img class="intro-logo" src="./images/batman cover logo.png" alt="batman-cover-logo">
+            <div class="directions">
+                <h2>DIRECTIONS</h2>
+                <ul>
+                    <li>Your goal is to take as much coins as you can</li>
+                    <li>Your body of your batman would be growing with every coin you take</li>
+                    <li>The speed would increase once you reach certain score</li>
+                    <li>To move your batman you need to play with the arrows on your keypad</li>
+                </ul>
+            </div>
+        </div>
+        <div class="button-div">
+            <button id="start-button" class="main-button">Start Game</button>
+        </div>
+    </div>
+    
+    <div class="board-page">
+        <div class="data">
+            <h3>SCORE: <span id="score">0</span></h3>
+            
+            <h3>LEVEL: <span id="level">1</span></h3>
+            
+        </div>
+        
+        
+        <div class="canvas-align">
+            <canvas width="800"; height="360"></canvas>
+        </div>
+    </div>
+    <div class="game-over">
+        <h2>GAME OVER - SORRY LOSER</h2>
+        <div class="data-end">
+            <h3>SCORE: <span id="score">0</span></h3>
+            <h3>LEVEL: <span id="level">1</span></h3>
+        </div>
+        
+        <button id="restart-button" class="main-button">Restart Game</button>
+    </div>
+    <script src="finalBasic.js"></script>
 </body>
 </html>
