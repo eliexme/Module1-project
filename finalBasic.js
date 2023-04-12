@@ -13,6 +13,9 @@ boardPage.style.display = 'none'
 //game-over target
 const endGame = document.querySelector('.game-over')
 endGame.style.display = 'none'
+//grid image
+const grid = new Image()
+grid.src = 'images/grid.png'
 
 const gameScore = document.getElementById("score")
 const gameLevel = document.getElementById("level")
@@ -21,7 +24,9 @@ const levelFinal = document.querySelector('#levelFinal')
 
 //batman image
 const batman = new Image()
-batman.src = 'images/batman-game-logo.png'
+batman.src = './images/batman-face.png'
+const batBody = new Image()
+batBody.src = './images/batman-body.png'
 
 //tile info
 const rows = 18
@@ -35,11 +40,13 @@ let vectorX = 0
 let vectorY = 0
 let snakeBody = [[4*tileSize, 10*tileSize],[3*tileSize, 10*tileSize]]
 
+  
+
 //coin
 let coinX
 let coinY
 const coinImg = new Image()
-coinImg.src = 'images/coin.png'
+coinImg.src = 'images/coin2.png'
 
 let score = 0
 let speed = 10
@@ -53,10 +60,17 @@ let gameInterval
 
 function drawGame(){
     //draw background
-    ctx.fillStyle = 'green'
-    ctx.fillRect (0, 0, canvas.width, canvas.height)
-    ctx.fillStyle= 'black'
-    ctx.fillRect (2, 2, canvas.width -4, canvas.height -4)
+    ctx.drawImage (grid, 0, 0, canvas.width, canvas.height)
+    ctx.beginPath()
+    ctx.lineWidth = "5";
+    ctx.strokeStyle = 'green'
+    ctx.rect(0,0,canvas.width, canvas.height)
+    ctx.stroke()
+    ctx.closePath()
+    //ctx.fillStyle= 'black'
+    //ctx.fillRect (2, 2, canvas.width -4, canvas.height -4)
+
+    
 
     //drawCoin
     ctx.drawImage(coinImg, coinX, coinY, tileSize, tileSize)
@@ -86,13 +100,14 @@ function drawGame(){
     }
 
 
-    ctx.fillStyle = 'purple'
+    //ctx.fillStyle = 'purple'
     for (let i=0; i<snakeBody.length; i++){
-        ctx.fillRect (snakeBody[i][0], snakeBody[i][1], tileSize, tileSize)
+        ctx.drawImage (batBody, snakeBody[i][0], snakeBody[i][1], tileSize, tileSize)
+        //ctx.fillRect (snakeBody[i][0], snakeBody[i][1], tileSize, tileSize)
     }
 
     //draw snake head
-    ctx.fillStyle = 'purple'
+    //ctx.fillStyle = 'purple'
     snakeX += vectorX * tileSize
     snakeY += vectorY * tileSize
     //ctx.fillRect(snakeX, snakeY, tileSize, tileSize)
