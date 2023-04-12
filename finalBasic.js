@@ -24,9 +24,9 @@ const levelFinal = document.querySelector('#levelFinal')
 
 //batman image
 const batman = new Image()
-batman.src = './images/batman-face.png'
+batman.src = 'images/batman-face.png'
 const batBody = new Image()
-batBody.src = './images/batman-body.png'
+batBody.src = 'images/batman-body.png'
 
 //tile info
 const rows = 18
