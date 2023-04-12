@@ -14,9 +14,15 @@ boardPage.style.display = 'none'
 const endGame = document.querySelector('.game-over')
 endGame.style.display = 'none'
 
+const gameScore = document.getElementById("score")
+const gameLevel = document.getElementById("level")
+const scoreFinal = document.querySelector('#scoreFinal')
+const levelFinal = document.querySelector('#levelFinal')
+
 //batman image
 const batman = new Image()
 batman.src = 'images/batman-game-logo.png'
+
 //tile info
 const rows = 18
 const columns = 40
@@ -27,7 +33,7 @@ let snakeX = 5*tileSize
 let snakeY = 10*tileSize
 let vectorX = 0
 let vectorY = 0
-let snakeBody = []
+let snakeBody = [[4*tileSize, 10*tileSize],[3*tileSize, 10*tileSize]]
 
 //coin
 let coinX
@@ -61,13 +67,14 @@ function drawGame(){
         placeCoin()
         score += 100
         //score-level
-    if (score % 500 === 0){
-        speed += 10
+    if (score % 500 === 0 && score > 0){
+        speed += 2.5
         level += 1
+        fasterInterval()
     }
     //score values
-    document.getElementById("score").innerText = score;
-    document.getElementById("level").innerText = level;
+    gameScore.innerText = score;
+    gameLevel.innerText = level;
         //console.log(score, level, speed)
     }
 
@@ -78,6 +85,12 @@ function drawGame(){
         snakeBody[0] = [snakeX, snakeY]
     }
 
+
+    ctx.fillStyle = 'purple'
+    for (let i=0; i<snakeBody.length; i++){
+        ctx.fillRect (snakeBody[i][0], snakeBody[i][1], tileSize, tileSize)
+    }
+
     //draw snake head
     ctx.fillStyle = 'purple'
     snakeX += vectorX * tileSize
@@ -85,25 +98,18 @@ function drawGame(){
     //ctx.fillRect(snakeX, snakeY, tileSize, tileSize)
     ctx.drawImage(batman, snakeX, snakeY, tileSize, tileSize)
 
-    ctx.fillStyle = 'purple'
-    for (let i=0; i<snakeBody.length; i++){
-        ctx.fillRect (snakeBody[i][0], snakeBody[i][1], tileSize, tileSize)
-    }
-
     //gameOver conditions
     if (snakeX < 0 || snakeX >= columns*tileSize || snakeY < 0 || snakeY >= rows*tileSize){
-        gameOver = true
         gameOver = true
         showGameOverScreen();
     }
 
-    for (let i=0; i<snakeBody.length; i++){
+    for (let i=2; i<snakeBody.length; i++){
         if(snakeX === snakeBody[i][0]&& snakeY === snakeBody[i][1]){
-            gameOver = true
             gameOver = true
             showGameOverScreen();
         }
-    }    
+    }   
 }
 
 function placeCoin() {
@@ -130,14 +136,26 @@ function placeCoin() {
     }
   }
 
+  function fasterInterval(){
+    clearInterval(gameInterval)
+    gameInterval = setInterval(drawGame, 1000/speed)
+  }
+
   function showGameOverScreen() {
-    let snakeX = 5*tileSize
-    let snakeY = 10*tileSize
-    let vectorX = 0
-    let vectorY = 0
-    let snakeBody = []
+    snakeX = 5*tileSize
+    snakeY = 10*tileSize
+    vectorX = 0
+    vectorY = 0
+    snakeBody = [[4*tileSize, 10*tileSize],[3*tileSize, 10*tileSize]]
+    scoreFinal.innerText = score
+    levelFinal.innerText = level
     boardPage.style.display = 'none';
     endGame.style.display = 'block';
+    score = 0
+    speed = 10
+    level = 1
+    gameScore.innerText = score;
+    gameLevel.innerText = level;
     clearInterval(gameInterval)
   }
   
@@ -154,9 +172,15 @@ startButton.addEventListener('click', ()=>{
 restartButton.addEventListener('click', ()=>{
     boardPage.style.display = 'block'
     mainIntro.style.display = 'none'
+    endGame.style.display = 'none'
+    gameOver = false
     placeCoin()
     document.addEventListener('keydown', changeDirection)
-    setInterval(drawGame, 1000/speed)
+    score = 0
+    speed = 10
+    vectorX = 0
+    vectorY = 0
+    clearInterval(gameInterval)
+    gameInterval = setInterval(drawGame, 1000/speed)
 })
-
 })
