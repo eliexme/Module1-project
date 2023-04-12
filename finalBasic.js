@@ -16,11 +16,18 @@ endGame.style.display = 'none'
 //grid image
 const grid = new Image()
 grid.src = 'images/grid.png'
+//audio
+const coinSound = new Audio('sounds/coin (online-audio-converter.com).mp3')
+const musicMain = new Audio('sounds/09. Scum, Criminals, and Worse.mp3')
+musicMain.volume = 0.1
+const endSound = new Audio ('sounds/mixkit-arcade-game-over-1949.mp3')
+const muteButton = document.querySelector('.mute')
 
 const gameScore = document.getElementById("score")
 const gameLevel = document.getElementById("level")
 const scoreFinal = document.querySelector('#scoreFinal')
 const levelFinal = document.querySelector('#levelFinal')
+
 
 //batman image
 const batman = new Image()
@@ -59,8 +66,11 @@ let gameInterval
 
 
 function drawGame(){
+    musicMain.play()
     //draw background
     ctx.drawImage (grid, 0, 0, canvas.width, canvas.height)
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = "purple";
     ctx.beginPath()
     ctx.lineWidth = "5";
     ctx.strokeStyle = 'green'
@@ -79,6 +89,7 @@ function drawGame(){
     if(snakeX === coinX && snakeY === coinY){
         snakeBody.push([coinX, coinY])
         placeCoin()
+        coinSound.play()
         score += 100
         //score-level
     if (score % 500 === 0 && score > 0){
@@ -113,13 +124,14 @@ function drawGame(){
     //ctx.fillRect(snakeX, snakeY, tileSize, tileSize)
     ctx.drawImage(batman, snakeX, snakeY, tileSize, tileSize)
 
+
     //gameOver conditions
     if (snakeX < 0 || snakeX >= columns*tileSize || snakeY < 0 || snakeY >= rows*tileSize){
         gameOver = true
         showGameOverScreen();
     }
 
-    for (let i=2; i<snakeBody.length; i++){
+    for (let i=4; i<snakeBody.length; i++){
         if(snakeX === snakeBody[i][0]&& snakeY === snakeBody[i][1]){
             gameOver = true
             showGameOverScreen();
@@ -157,6 +169,9 @@ function placeCoin() {
   }
 
   function showGameOverScreen() {
+    musicMain.pause()
+    musicMain.currentTime = 0
+    endSound.play()
     snakeX = 5*tileSize
     snakeY = 10*tileSize
     vectorX = 0
@@ -180,9 +195,17 @@ startButton.addEventListener('click', ()=>{
     boardPage.style.display = 'block'
     mainIntro.style.display = 'none'
     placeCoin()
-    document.addEventListener('keydown', changeDirection)
     gameInterval = setInterval(drawGame, 1000/speed)
+    document.addEventListener('keydown', changeDirection)
+    
 })
+
+muteButton.addEventListener('click', () => {
+    //mutea o desmutea los sonidos
+    coinSound.muted = !coinSound.muted
+    musicMain.muted = !musicMain.muted
+    endSound.muted = !endSound.muted
+  })
 
 restartButton.addEventListener('click', ()=>{
     boardPage.style.display = 'block'
@@ -190,12 +213,12 @@ restartButton.addEventListener('click', ()=>{
     endGame.style.display = 'none'
     gameOver = false
     placeCoin()
-    document.addEventListener('keydown', changeDirection)
     score = 0
     speed = 10
     vectorX = 0
     vectorY = 0
     clearInterval(gameInterval)
     gameInterval = setInterval(drawGame, 1000/speed)
+    document.addEventListener('keydown', changeDirection)
 })
 })
